@@ -14,13 +14,14 @@
 		0342C87C196378B800044688 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0342C87B196378B800044688 /* main.m */; };
 		0342C880196378B800044688 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0342C87F196378B800044688 /* AppDelegate.m */; };
 		0342C883196378B800044688 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0342C881196378B800044688 /* Main.storyboard */; };
-		0342C886196378B800044688 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0342C885196378B800044688 /* ViewController.m */; };
 		0342C888196378B800044688 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0342C887196378B800044688 /* Images.xcassets */; };
 		0342C88F196378B800044688 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0342C88E196378B800044688 /* XCTest.framework */; };
 		0342C890196378B800044688 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0342C86F196378B800044688 /* Foundation.framework */; };
 		0342C891196378B800044688 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0342C873196378B800044688 /* UIKit.framework */; };
 		0342C899196378B800044688 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0342C897196378B800044688 /* InfoPlist.strings */; };
 		0342C89B196378B800044688 /* TabViewControllerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0342C89A196378B800044688 /* TabViewControllerTests.m */; };
+		0342C8A6196378E900044688 /* TabViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0342C8A5196378E900044688 /* TabViewController.m */; };
+		0342C8A91963796B00044688 /* SampleTabViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0342C8A81963796B00044688 /* SampleTabViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,14 +46,16 @@
 		0342C87E196378B800044688 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		0342C87F196378B800044688 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		0342C882196378B800044688 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		0342C884196378B800044688 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		0342C885196378B800044688 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		0342C887196378B800044688 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		0342C88D196378B800044688 /* TabViewControllerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TabViewControllerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0342C88E196378B800044688 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		0342C896196378B800044688 /* TabViewControllerTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "TabViewControllerTests-Info.plist"; sourceTree = "<group>"; };
 		0342C898196378B800044688 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		0342C89A196378B800044688 /* TabViewControllerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TabViewControllerTests.m; sourceTree = "<group>"; };
+		0342C8A4196378E900044688 /* TabViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TabViewController.h; sourceTree = "<group>"; };
+		0342C8A5196378E900044688 /* TabViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TabViewController.m; sourceTree = "<group>"; };
+		0342C8A71963796B00044688 /* SampleTabViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SampleTabViewController.h; sourceTree = "<group>"; };
+		0342C8A81963796B00044688 /* SampleTabViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SampleTabViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -114,11 +117,13 @@
 			children = (
 				0342C87E196378B800044688 /* AppDelegate.h */,
 				0342C87F196378B800044688 /* AppDelegate.m */,
+				0342C8A4196378E900044688 /* TabViewController.h */,
+				0342C8A5196378E900044688 /* TabViewController.m */,
 				0342C881196378B800044688 /* Main.storyboard */,
-				0342C884196378B800044688 /* ViewController.h */,
-				0342C885196378B800044688 /* ViewController.m */,
 				0342C887196378B800044688 /* Images.xcassets */,
 				0342C876196378B800044688 /* Supporting Files */,
+				0342C8A71963796B00044688 /* SampleTabViewController.h */,
+				0342C8A81963796B00044688 /* SampleTabViewController.m */,
 			);
 			path = TabViewController;
 			sourceTree = "<group>";
@@ -249,7 +254,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0342C886196378B800044688 /* ViewController.m in Sources */,
+				0342C8A91963796B00044688 /* SampleTabViewController.m in Sources */,
+				0342C8A6196378E900044688 /* TabViewController.m in Sources */,
 				0342C880196378B800044688 /* AppDelegate.m in Sources */,
 				0342C87C196378B800044688 /* main.m in Sources */,
 			);
