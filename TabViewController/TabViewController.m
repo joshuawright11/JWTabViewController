@@ -59,7 +59,7 @@
     tabs = [[NSMutableArray alloc] init];
     
     for(int i = 0; i < [self.viewControllers count]; i++){
-        UILabel *tab = [[UILabel alloc] initWithFrame:CGRectMake((tabLength * i)+10, self.tabBar.bounds.origin.y+10, tabLength - 20, self.tabBar.bounds.size.height - 20)];
+        UILabel *tab = [[UILabel alloc] initWithFrame:CGRectMake((tabLength * i), self.tabBar.bounds.origin.y, tabLength, self.tabBar.bounds.size.height)];
         [tab setTextAlignment:NSTextAlignmentCenter];
         
         tab.text = [titles objectAtIndex:i];
