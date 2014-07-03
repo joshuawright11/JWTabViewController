@@ -32,11 +32,10 @@
     self.highlightedTextColor = [UIColor lightGrayColor];
     self.textColor = [UIColor blackColor];
     self.tabFont = [UIFont systemFontOfSize:18];
-    
     self.topBarHeight = 44;
-    self.edgesForExtendedLayout = UIRectEdgeNone; // No see through yet :(
+    self.tabsPerScreen = 3;
     
-    self.tabBar = [self createTabs];
+    self.edgesForExtendedLayout = UIRectEdgeNone; // No see through yet :(
     self.pageViewController = [self createPageViewController];
 }
 
@@ -48,18 +47,30 @@
     UIView *tabBar = [[UIView alloc] init];
     [self.view addSubview:tabBar];
     
+    if([self.viewControllers count] < 1) {
+           return tabBar;
+    }
+    
     float screenWidth = self.pageViewController.view.bounds.size.width;
-    tabLength = screenWidth / 3.0f;
+    
+    if(self.tabsPerScreen <= [self.viewControllers count]){
+        tabLength = screenWidth / self.tabsPerScreen;
+    }else{
+        tabLength = screenWidth / [self.viewControllers count];
+    }
     
     float barLength = tabLength * [self.viewControllers count];
+    
     if(barLength < self.view.bounds.size.width){
         barLength = self.view.bounds.size.width;
     }
     
     tabs = [[NSMutableArray alloc] init];
     
+    tabBar.frame = CGRectMake(self.view.bounds.origin.x, self.view.frame.origin.y, barLength, self.topBarHeight);
+    
     for(int i = 0; i < [self.viewControllers count]; i++){
-        UILabel *tab = [[UILabel alloc] initWithFrame:CGRectMake((tabLength * i), self.tabBar.bounds.origin.y, tabLength, self.tabBar.bounds.size.height)];
+        UILabel *tab = [[UILabel alloc] initWithFrame:CGRectMake((tabLength * i), tabBar.bounds.origin.y, tabLength, tabBar.bounds.size.height)];
         [tab setTextAlignment:NSTextAlignmentCenter];
         
         tab.text = [titles objectAtIndex:i];
@@ -71,16 +82,16 @@
         [tab addGestureRecognizer:tapGesture];
         
         [tabBar addSubview:tab];
+        NSLog(@"%@",NSStringFromCGRect(tab.frame));
         [tabs addObject:tab];
     }
-    self.selectedTab = [[UIView alloc] initWithFrame:CGRectMake(selectedIndex*tabLength+10, self.tabBar.bounds.size.height - 5, tabLength-20, 5)];
+    self.selectedTab = [[UIView alloc] initWithFrame:CGRectMake(selectedIndex*tabLength+10, tabBar.bounds.size.height - 5, tabLength-20, 5)];
     
     self.selectedTab.backgroundColor = self.selectedTabColor;
     
     [tabBar addSubview:self.selectedTab];
-    //tabController.view.frame = CGRectMake(0, 0, 10, 10);
     
-    tabBar.frame = CGRectMake(self.view.bounds.origin.x, self.view.frame.origin.y, barLength, self.topBarHeight);
+
     
     for(UIView *view in self.pageViewController.view.subviews){
         if([view isKindOfClass:[UIScrollView class]]){
@@ -120,11 +131,12 @@
 {
     self.viewControllers = viewControllers;
     titles = viewControllerTitles;
+    self.tabBar = [self createTabs];
     
     [self.pageViewController setViewControllers:@[self.viewControllers[0]] direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:nil];
     
     selectedIndex = 0;
-    self.tabBar = [self createTabs];
+
 }
 
 #pragma mark - UIPageViewControllerSource
@@ -170,7 +182,11 @@
 - (void)jumpBarToIndex:(NSInteger)index
 {
     
-    float offSet = (([self.viewControllers count] - 3.0)*tabLength)/([self.viewControllers count]-1);
+    float actualTabs = (self.tabsPerScreen <= [self.viewControllers count]) ? self.tabsPerScreen : [self.viewControllers count];
+    
+    float offSet = (([self.viewControllers count] - actualTabs)*tabLength)/([self.viewControllers count]-1);
+    
+    
     UILabel *oldLabel = ((UILabel*)[tabs objectAtIndex:selectedIndex]);
     UILabel *newLabel = ((UILabel*)[tabs objectAtIndex:index]);
     [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
@@ -199,10 +215,18 @@
 }
 
 #pragma mark - setters
+
+-(void)setTabsPerScreen:(NSInteger)tabsPerScreen
+{
+    _tabsPerScreen = tabsPerScreen;
+    //TODO
+    //self.tabBar = [self createTabs];
+}
+
 -(void)setTopBarHeight:(NSInteger)topBarHeight
 {
     _topBarHeight = topBarHeight;
-    // TODO
+    //TODO
 }
 
 -(void)setTextColor:(UIColor *)textColor

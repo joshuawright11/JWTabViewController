@@ -14,6 +14,7 @@
 
 // Remove Soon
 @property (nonatomic, assign) NSInteger topBarHeight;
+@property (nonatomic, assign) NSInteger tabsPerScreen;
 
 @property (nonatomic, strong) UIFont *tabFont;
 @property (nonatomic, strong) UIColor *textColor;
