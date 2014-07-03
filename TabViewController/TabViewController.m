@@ -10,6 +10,9 @@
 
 @interface TabViewController ()
 @property (nonatomic, strong) NSArray *viewControllers;
+@property (nonatomic, strong) UIPageViewController *pageViewController;
+@property (nonatomic, strong) UIView *tabBar;
+@property (nonatomic, strong) UIView *selectedTab;
 @end
 
 @implementation TabViewController
@@ -28,7 +31,7 @@
     self.selectedTabColor = [UIColor blackColor];
     self.highlightedTextColor = [UIColor lightGrayColor];
     self.textColor = [UIColor blackColor];
-    self.labelFont = [UIFont systemFontOfSize:18];
+    self.tabFont = [UIFont systemFontOfSize:18];
     
     self.topBarHeight = 44;
     self.edgesForExtendedLayout = UIRectEdgeNone; // No see through yet :(
@@ -60,7 +63,7 @@
         [tab setTextAlignment:NSTextAlignmentCenter];
         
         tab.text = [titles objectAtIndex:i];
-        tab.font = self.labelFont;
+        tab.font = self.tabFont;
         tab.textColor = (i == 0) ? self.highlightedTextColor : self.textColor;
         
         tab.userInteractionEnabled = YES;
@@ -196,5 +199,52 @@
 }
 
 #pragma mark - setters
+-(void)setTopBarHeight:(NSInteger)topBarHeight
+{
+    _topBarHeight = topBarHeight;
+    // TODO
+}
+
+-(void)setTextColor:(UIColor *)textColor
+{
+    _textColor = textColor;
+    for (int i = 0 ; i < [tabs count] ; i++) {
+        if (i != selectedIndex) {
+            ((UILabel *)[tabs objectAtIndex:i]).textColor = textColor;
+        }
+    }
+}
+
+-(void)setTabFont:(UIFont *)tabFont
+{
+    _tabFont = tabFont;
+    for (UILabel *label in tabs) {
+        label.font = tabFont;
+    }
+}
+
+-(void)setHighlightedTextColor:(UIColor *)highlightedTextColor
+{
+    _highlightedTextColor = highlightedTextColor;
+    ((UILabel *)[tabs objectAtIndex:selectedIndex]).textColor = highlightedTextColor;
+}
+
+-(void)setSelectedTabColor:(UIColor *)selectedTabColor
+{
+    _selectedTabColor = selectedTabColor;
+    self.selectedTab.backgroundColor = selectedTabColor;
+}
+
+-(void)setPageViewBackgroundColor:(UIColor *)pageViewBackgroundColor
+{
+    _pageViewBackgroundColor = pageViewBackgroundColor;
+    self.pageViewController.view.backgroundColor = pageViewBackgroundColor;
+}
+
+-(void)setTabBarBackgroundColor:(UIColor *)tabBarBackgroundColor
+{
+    _tabBarBackgroundColor = tabBarBackgroundColor;
+    self.tabBar.backgroundColor = tabBarBackgroundColor;
+}
 
 @end

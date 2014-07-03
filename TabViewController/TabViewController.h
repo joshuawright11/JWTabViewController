@@ -10,18 +10,17 @@
 
 @interface TabViewController : UIViewController<UIPageViewControllerDataSource, UIPageViewControllerDelegate,UIScrollViewDelegate>
 
-@property (nonatomic, strong) UIPageViewController *pageViewController;
-@property (nonatomic, strong) UIView *tabBar;
-@property (nonatomic, strong) UIView *selectedTab;
-
-@property (nonatomic, assign) NSInteger topBarHeight;
 
 
 // Remove Soon
-@property UIFont *labelFont;
-@property UIColor *textColor;
-@property UIColor *highlightedTextColor;
-@property UIColor *selectedTabColor;
+@property (nonatomic, assign) NSInteger topBarHeight;
+
+@property (nonatomic, strong) UIFont *tabFont;
+@property (nonatomic, strong) UIColor *textColor;
+@property (nonatomic, strong) UIColor *highlightedTextColor;
+@property (nonatomic, strong) UIColor *selectedTabColor;
+@property (nonatomic, strong) UIColor *tabBarBackgroundColor;
+@property (nonatomic, strong) UIColor *pageViewBackgroundColor;
 
 -(void)putViewControllers:(NSArray *)viewControllers withTitles:(NSArray *)viewControllerTitles;
 
