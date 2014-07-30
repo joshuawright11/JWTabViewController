@@ -35,33 +35,34 @@
     self.topBarHeight = 44;
     self.tabsPerScreen = 3;
     
-    self.edgesForExtendedLayout = UIRectEdgeNone; // No see through yet :(
+    self.edgesForExtendedLayout = UIRectEdgeNone;
     self.pageViewController = [self createPageViewController];
 }
 
 - (UIView *)createTabs // MEMORY LEAK
 {
-    if(self.tabBar != nil){
+    if (self.tabBar != nil) {
         [self.tabBar removeFromSuperview];
     }
+    
     UIView *tabBar = [[UIView alloc] init];
     [self.view addSubview:tabBar];
     
-    if([self.viewControllers count] < 1) {
+    if ([self.viewControllers count] < 1) {
            return tabBar;
     }
     
     float screenWidth = self.pageViewController.view.bounds.size.width;
     
-    if(self.tabsPerScreen <= [self.viewControllers count]){
+    if (self.tabsPerScreen <= [self.viewControllers count]) {
         tabLength = screenWidth / self.tabsPerScreen;
-    }else{
+    } else {
         tabLength = screenWidth / [self.viewControllers count];
     }
     
     float barLength = tabLength * [self.viewControllers count];
     
-    if(barLength < self.view.bounds.size.width){
+    if (barLength < self.view.bounds.size.width) {
         barLength = self.view.bounds.size.width;
     }
     
@@ -69,7 +70,7 @@
     
     tabBar.frame = CGRectMake(self.view.bounds.origin.x, self.view.frame.origin.y, barLength, self.topBarHeight);
     
-    for(int i = 0; i < [self.viewControllers count]; i++){
+    for (int i = 0; i < [self.viewControllers count]; i++) {
         UILabel *tab = [[UILabel alloc] initWithFrame:CGRectMake((tabLength * i), tabBar.bounds.origin.y, tabLength, tabBar.bounds.size.height)];
         [tab setTextAlignment:NSTextAlignmentCenter];
         
@@ -82,7 +83,7 @@
         [tab addGestureRecognizer:tapGesture];
         
         [tabBar addSubview:tab];
-        NSLog(@"%@",NSStringFromCGRect(tab.frame));
+        NSLog(@"%@", NSStringFromCGRect(tab.frame));
         [tabs addObject:tab];
     }
     self.selectedTab = [[UIView alloc] initWithFrame:CGRectMake(selectedIndex*tabLength+10, tabBar.bounds.size.height - 5, tabLength-20, 5)];
@@ -93,7 +94,7 @@
     
 
     
-    for(UIView *view in self.pageViewController.view.subviews){
+    for (UIView *view in self.pageViewController.view.subviews){
         if([view isKindOfClass:[UIScrollView class]]){
             ((UIScrollView *)view).delegate = self;
         }
@@ -102,7 +103,7 @@
     return tabBar;
 }
 
--(void)jumpToView:(UITapGestureRecognizer *)gesture
+- (void)jumpToView:(UITapGestureRecognizer *)gesture
 {
     NSInteger index = [tabs indexOfObject:gesture.view];
     
@@ -154,17 +155,33 @@
 - (UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerBeforeViewController:(UIViewController *)viewController
 {
     NSInteger newIndex = [self.viewControllers indexOfObject:viewController]-1;
-    if(newIndex >= 0){
+    if (newIndex >= 0) {
         return [self.viewControllers objectAtIndex:newIndex];
-    }else{
+    } else {
         return nil;
     }
 }
 
--(void)scrollViewDidScroll:(UIScrollView *)scrollView
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-    //NSLog(@"%f",scrollView.contentOffset.x);
-    // TODO scroll here
+    float pageWidth = self.view.frame.size.width;
+    float offsetScrollViewPage = scrollView.contentOffset.x - pageWidth;
+    float actualTabs = (self.tabsPerScreen <= [self.viewControllers count]) ? self.tabsPerScreen : [self.viewControllers count];
+    float index = selectedIndex + (offsetScrollViewPage / pageWidth);
+    float offset = (([self.viewControllers count] - actualTabs) * tabLength)/([self.viewControllers count]-1);
+    float offsetTabBar = -index * offset;
+    
+    if (offsetTabBar < 0) {
+        self.tabBar.frame = CGRectMake(offsetTabBar, self.tabBar.frame.origin.y, self.tabBar.bounds.size.width, self.tabBar.bounds.size.height);
+    }
+    
+    if (offsetScrollViewPage > pageWidth/2) {
+        [self jumpSelectedToIndex:selectedIndex+1];
+    } else if (offsetScrollViewPage < -(pageWidth/2)) {
+        [self jumpSelectedToIndex:selectedIndex-1];
+    } else {
+        [self jumpSelectedToIndex:selectedIndex];
+    }
 }
 
 - (void)pageViewController:(UIPageViewController *)pageViewController willTransitionToViewControllers:(NSArray *)pendingViewControllers
@@ -172,7 +189,7 @@
     
 }
 
--(void)pageViewController:(UIPageViewController *)pageViewController didFinishAnimating:(BOOL)finished previousViewControllers:(NSArray *)previousViewControllers transitionCompleted:(BOOL)completed
+- (void)pageViewController:(UIPageViewController *)pageViewController didFinishAnimating:(BOOL)finished previousViewControllers:(NSArray *)previousViewControllers transitionCompleted:(BOOL)completed
 {
     NSInteger newIndex = [self.viewControllers indexOfObject:self.pageViewController.viewControllers[0]];
     [self jumpBarToIndex:newIndex];
@@ -184,26 +201,40 @@
     
     float actualTabs = (self.tabsPerScreen <= [self.viewControllers count]) ? self.tabsPerScreen : [self.viewControllers count];
     
-    float offSet = (([self.viewControllers count] - actualTabs)*tabLength)/([self.viewControllers count]-1);
+    float offSet = (([self.viewControllers count] - actualTabs) * tabLength)/([self.viewControllers count]-1);
     
     
-    UILabel *oldLabel = ((UILabel*)[tabs objectAtIndex:selectedIndex]);
-    UILabel *newLabel = ((UILabel*)[tabs objectAtIndex:index]);
+    UILabel *oldLabel = ((UILabel *)[tabs objectAtIndex:selectedIndex]);
+    UILabel *newLabel = ((UILabel *)[tabs objectAtIndex:index]);
     [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
         
         self.selectedTab.frame = CGRectMake(index*tabLength+10, self.selectedTab.frame.origin.y, tabLength-20, self.selectedTab.bounds.size.height);
         
         self.tabBar.frame = CGRectMake(-index*(offSet), self.tabBar.frame.origin.y, self.tabBar.bounds.size.width, self.tabBar.bounds.size.height);
-    }completion:nil];
+    } completion:nil];
     
     [UIView transitionWithView:oldLabel duration:0.2 options:UIViewAnimationOptionTransitionCrossDissolve animations:^{
         oldLabel.textColor = self.textColor;
-    } completion:^(BOOL finished) {
-    }];
+    } completion:nil];
     [UIView transitionWithView:newLabel duration:0.2 options:UIViewAnimationOptionTransitionCrossDissolve animations:^{
         newLabel.textColor = self.highlightedTextColor;
-    } completion:^(BOOL finished) {
-    }];
+    } completion:nil];
+}
+
+- (void)jumpSelectedToIndex:(NSInteger)index
+{
+    UILabel *oldLabel = ((UILabel *)[tabs objectAtIndex:selectedIndex]);
+    UILabel *newLabel = ((UILabel *)[tabs objectAtIndex:index]);
+    [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+        self.selectedTab.frame = CGRectMake(index*tabLength+10, self.selectedTab.frame.origin.y, tabLength-20, self.selectedTab.bounds.size.height);
+    } completion:nil];
+    
+    [UIView transitionWithView:oldLabel duration:0.2 options:UIViewAnimationOptionTransitionCrossDissolve animations:^{
+        oldLabel.textColor = self.textColor;
+    } completion:nil];
+    [UIView transitionWithView:newLabel duration:0.2 options:UIViewAnimationOptionTransitionCrossDissolve animations:^{
+        newLabel.textColor = self.highlightedTextColor;
+    } completion:nil];
 }
 
 - (void)jumpViewToIndex:(NSInteger)index
@@ -216,20 +247,20 @@
 
 #pragma mark - setters
 
--(void)setTabsPerScreen:(NSInteger)tabsPerScreen
+- (void)setTabsPerScreen:(NSInteger)tabsPerScreen
 {
     _tabsPerScreen = tabsPerScreen;
     //TODO
     //self.tabBar = [self createTabs];
 }
 
--(void)setTopBarHeight:(NSInteger)topBarHeight
+- (void)setTopBarHeight:(NSInteger)topBarHeight
 {
     _topBarHeight = topBarHeight;
     //TODO
 }
 
--(void)setTextColor:(UIColor *)textColor
+- (void)setTextColor:(UIColor *)textColor
 {
     _textColor = textColor;
     for (int i = 0 ; i < [tabs count] ; i++) {
@@ -239,7 +270,7 @@
     }
 }
 
--(void)setTabFont:(UIFont *)tabFont
+- (void)setTabFont:(UIFont *)tabFont
 {
     _tabFont = tabFont;
     for (UILabel *label in tabs) {
@@ -247,25 +278,25 @@
     }
 }
 
--(void)setHighlightedTextColor:(UIColor *)highlightedTextColor
+- (void)setHighlightedTextColor:(UIColor *)highlightedTextColor
 {
     _highlightedTextColor = highlightedTextColor;
     ((UILabel *)[tabs objectAtIndex:selectedIndex]).textColor = highlightedTextColor;
 }
 
--(void)setSelectedTabColor:(UIColor *)selectedTabColor
+- (void)setSelectedTabColor:(UIColor *)selectedTabColor
 {
     _selectedTabColor = selectedTabColor;
     self.selectedTab.backgroundColor = selectedTabColor;
 }
 
--(void)setPageViewBackgroundColor:(UIColor *)pageViewBackgroundColor
+- (void)setPageViewBackgroundColor:(UIColor *)pageViewBackgroundColor
 {
     _pageViewBackgroundColor = pageViewBackgroundColor;
     self.pageViewController.view.backgroundColor = pageViewBackgroundColor;
 }
 
--(void)setTabBarBackgroundColor:(UIColor *)tabBarBackgroundColor
+- (void)setTabBarBackgroundColor:(UIColor *)tabBarBackgroundColor
 {
     _tabBarBackgroundColor = tabBarBackgroundColor;
     self.tabBar.backgroundColor = tabBarBackgroundColor;
