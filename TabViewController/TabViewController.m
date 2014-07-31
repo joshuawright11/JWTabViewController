@@ -19,6 +19,7 @@
 {
     float offsetPerView;
     NSInteger selectedIndex;
+    NSInteger barIndex;
     float tabLength;
     NSArray *titles;
     NSMutableArray *tabs;
@@ -116,7 +117,7 @@
     NSInteger index = [tabs indexOfObject:gesture.view];
     
     //[self jumpBarToIndex:index];
-    [self jumpViewToIndex:index];
+    //[self jumpViewToIndex:index];
 }
 
 - (UIPageViewController *)createPageViewController
@@ -188,20 +189,15 @@
     if (offsetTabBar < 0 && index < [self.viewControllers count]-1)
     {
         self.tabBar.frame = CGRectMake(offsetTabBar, self.tabBar.frame.origin.y, self.tabBar.bounds.size.width, self.tabBar.bounds.size.height);
-        if((int)(index + 0.5) > (int)index)
+        if((int)(index + 0.5) > (int)barIndex)
         {
-            //[self jumpBarToIndex:index+1];
-            //selectedIndex = index+1;
+            [self jumpBarToIndex:barIndex+1];
         }
-        else if((int)(index + 0.5) < (int)index)
+        else if((int)(index + 0.5) < (int)barIndex)
         {
-            //[self jumpBarToIndex:index-1];
-            //selectedIndex = index+1;
+            [self jumpBarToIndex:barIndex-1];
         }
     }
-    
-    NSLog(@"index: %d",(int)(index+0.5));
-    
 }
 
 - (void)pageViewController:(UIPageViewController *)pageViewController willTransitionToViewControllers:(NSArray *)pendingViewControllers
@@ -218,7 +214,7 @@
 
 - (void)jumpBarToIndex:(NSInteger)index
 {
-    UILabel *oldLabel = ((UILabel *)[tabs objectAtIndex:selectedIndex]);
+    UILabel *oldLabel = ((UILabel *)[tabs objectAtIndex:barIndex]);
     UILabel *newLabel = ((UILabel *)[tabs objectAtIndex:index]);
     [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^
     {
@@ -233,8 +229,10 @@
     {
         newLabel.textColor = self.highlightedTextColor;
     } completion:nil];
+    barIndex = index;
 }
 
+// Duplicate method?!
 - (void)jumpSelectedToIndex:(NSInteger)index
 {
     UILabel *oldLabel = ((UILabel *)[tabs objectAtIndex:selectedIndex]);
@@ -265,11 +263,6 @@
     };
     
     [self.pageViewController setViewControllers:@[self.viewControllers[index]] direction:direction animated:YES completion:name];
-}
-
-- (void)setSelectedIndex:(NSInteger)index
-{
-    selectedIndex = index;
 }
 
 #pragma mark - setters
