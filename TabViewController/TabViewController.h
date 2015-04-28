@@ -16,6 +16,8 @@
 @property (nonatomic, assign) NSInteger topBarHeight;
 @property (nonatomic, assign) NSInteger tabsPerScreen;
 
+@property (nonatomic, assign) NSInteger selectedIndex;
+
 @property (nonatomic, strong) UIFont *tabFont;
 @property (nonatomic, strong) UIColor *textColor;
 @property (nonatomic, strong) UIColor *highlightedTextColor;
@@ -23,6 +25,8 @@
 @property (nonatomic, strong) UIColor *tabBarBackgroundColor;
 @property (nonatomic, strong) UIColor *pageViewBackgroundColor;
 
--(void)putViewControllers:(NSArray *)viewControllers withTitles:(NSArray *)viewControllerTitles;
+- (void)putViewControllers:(NSArray *)viewControllers withTitles:(NSArray *)viewControllerTitles;
+- (UIView *)createTabs;
+- (void)jumpToIndex:(NSInteger)index;
 
 @end
