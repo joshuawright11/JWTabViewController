@@ -23,6 +23,9 @@
     UIViewController *test4 = [[self storyboard] instantiateViewControllerWithIdentifier:@"Test"];
     UIViewController *test5 = [[self storyboard] instantiateViewControllerWithIdentifier:@"Test"];
     UIViewController *test6 = [[self storyboard] instantiateViewControllerWithIdentifier:@"Test"];
+
+//    [self putViewControllers:@[test1,test2,test3]
+//                  withTitles:@[@"First",@"Second",@"Third"]];
     
     [self putViewControllers:@[test1,test2,test3,test4,test5,test6]
                   withTitles:@[@"First",@"Second",@"Third",@"Fourth",@"Fifth",@"Sixth"]];
@@ -33,8 +36,6 @@
     self.selectedTabColor = [UIColor greenColor];
     self.pageViewBackgroundColor = [UIColor blackColor];
     self.tabFont = [UIFont boldSystemFontOfSize:20];
-    
-//    self.tabsPerScreen = 4;
 }
 
 @end

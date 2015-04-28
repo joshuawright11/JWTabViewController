@@ -22,6 +22,7 @@
 		0342C89B196378B800044688 /* TabViewControllerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0342C89A196378B800044688 /* TabViewControllerTests.m */; };
 		0342C8A6196378E900044688 /* TabViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0342C8A5196378E900044688 /* TabViewController.m */; };
 		0342C8A91963796B00044688 /* SampleTabViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0342C8A81963796B00044688 /* SampleTabViewController.m */; };
+		036997A01AEF73FD00BDE57B /* Launch Screen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0369979F1AEF73FD00BDE57B /* Launch Screen.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,6 +57,7 @@
 		0342C8A5196378E900044688 /* TabViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TabViewController.m; sourceTree = "<group>"; };
 		0342C8A71963796B00044688 /* SampleTabViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SampleTabViewController.h; sourceTree = "<group>"; };
 		0342C8A81963796B00044688 /* SampleTabViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SampleTabViewController.m; sourceTree = "<group>"; };
+		0369979F1AEF73FD00BDE57B /* Launch Screen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "Launch Screen.xib"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -124,6 +126,7 @@
 				0342C876196378B800044688 /* Supporting Files */,
 				0342C8A71963796B00044688 /* SampleTabViewController.h */,
 				0342C8A81963796B00044688 /* SampleTabViewController.m */,
+				0369979F1AEF73FD00BDE57B /* Launch Screen.xib */,
 			);
 			path = TabViewController;
 			sourceTree = "<group>";
@@ -237,6 +240,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0342C888196378B800044688 /* Images.xcassets in Resources */,
+				036997A01AEF73FD00BDE57B /* Launch Screen.xib in Resources */,
 				0342C87A196378B800044688 /* InfoPlist.strings in Resources */,
 				0342C883196378B800044688 /* Main.storyboard in Resources */,
 			);
@@ -390,6 +394,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "TabViewController/TabViewController-Prefix.pch";
 				INFOPLIST_FILE = "TabViewController/TabViewController-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
@@ -406,6 +411,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "TabViewController/TabViewController-Prefix.pch";
 				INFOPLIST_FILE = "TabViewController/TabViewController-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
